@@ -476,7 +476,7 @@ void DialogRobot::ConnectData()
     else
     {
         //Connect
-        dataSocket.connectToHost(QHostAddress("192.168.100.130"), 5000);
+        dataSocket.connectToHost(QHostAddress("192.168.100.130"), 5001);
 //        dataSocket.connectToHost(QHostAddress("10.0.2.15"), 5001);
     }
 }

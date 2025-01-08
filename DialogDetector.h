@@ -9,6 +9,13 @@
 #include <opencv2/opencv.hpp>
 #include <fstream>
 
+struct Detection {
+    cv::Point2f center;
+    float confidence;
+    float width;
+    float height;
+};
+
 class DialogDetector
 {
 public:
@@ -25,6 +32,7 @@ public:
     // Draw results on image
     void drawGridAndLabels(cv::Mat& image, const cv::Rect& roi,
                            int rows, int cols, const std::vector<int>& cellResults);
+    void drawDebugInfo(cv::Mat& image, const cv::Rect& roi, const std::vector<int>& detections);
 
 private:
     cv::dnn::Net net;

@@ -50,10 +50,11 @@ public:
         label->setGeometry(QRect(810, 440, 61, 31));
         valueLabel = new QLabel(DialogCamera);
         valueLabel->setObjectName(QString::fromUtf8("valueLabel"));
-        valueLabel->setGeometry(QRect(890, 160, 181, 31));
+        valueLabel->setGeometry(QRect(930, 160, 181, 31));
         graphicsView = new QGraphicsView(DialogCamera);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
-        graphicsView->setGeometry(QRect(20, 0, 640, 480));
+        graphicsView->setGeometry(QRect(20, 10, 701, 501));
+        graphicsView->setInteractive(true);
         POSBTN = new QPushButton(DialogCamera);
         POSBTN->setObjectName(QString::fromUtf8("POSBTN"));
         POSBTN->setGeometry(QRect(810, 390, 61, 25));
@@ -62,16 +63,16 @@ public:
         NEGBTN->setGeometry(QRect(810, 480, 61, 25));
         LB_ORDER = new QLabel(DialogCamera);
         LB_ORDER->setObjectName(QString::fromUtf8("LB_ORDER"));
-        LB_ORDER->setGeometry(QRect(890, 110, 181, 31));
+        LB_ORDER->setGeometry(QRect(930, 110, 181, 31));
         CONTINUE = new QPushButton(DialogCamera);
         CONTINUE->setObjectName(QString::fromUtf8("CONTINUE"));
         CONTINUE->setGeometry(QRect(550, 550, 89, 25));
         LIST = new QLabel(DialogCamera);
         LIST->setObjectName(QString::fromUtf8("LIST"));
-        LIST->setGeometry(QRect(700, 110, 171, 31));
+        LIST->setGeometry(QRect(740, 110, 171, 31));
         LIST_2 = new QLabel(DialogCamera);
         LIST_2->setObjectName(QString::fromUtf8("LIST_2"));
-        LIST_2->setGeometry(QRect(700, 160, 171, 31));
+        LIST_2->setGeometry(QRect(740, 160, 171, 31));
 
         retranslateUi(DialogCamera);
 

@@ -14,7 +14,7 @@
 #include "DialogDetector.h"
 #include "Scheduler.h"
 
-#define BUILD_PATHSET "/home/thornch/Desktop/Kimbap_Robot_user/build/SETTING"
+#define BUILD_PATHSET "/home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/SETTING"
 
 struct ROIParams
 {
@@ -112,8 +112,8 @@ private:
     static constexpr float LAYER_1_DEPTH = 570.0f;
     static constexpr float LAYER_2_DEPTH = 600.0f;
     static constexpr float LAYER_3_DEPTH = 700.0f;
-    static constexpr float LAYER_4_DEPTH = 950.0f;
-    static constexpr float LAYER_5_DEPTH = 1200.0f;
+    static constexpr float LAYER_4_DEPTH = 800.0f;
+    static constexpr float LAYER_5_DEPTH = 970.0f;
     static constexpr float LAYER_6_DEPTH = 1400.0f;
     //----------------
 
@@ -127,6 +127,11 @@ private:
     void updateProcessButton();
     void setupButtonStyles();
     Scheduler* scheduler;
+
+    // Camera resolution constants
+    static const int CAMERA_WIDTH = 640;
+    static const int CAMERA_HEIGHT = 480;
+    void configureCamera(rs2::config& cfg);
 
 };
 

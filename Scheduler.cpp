@@ -143,30 +143,30 @@ void Scheduler::onTimer()
                 break;
             }
             qDebug()<<keymotion;
-//            processValue--;
-//            emit currentValueChanged(processValue);
+            processValue--;
+            emit currentValueChanged(processValue);
 //            robot->RobotMoving = true;
 //            robot->MotionServerCommand(keymotion);
 
-//            yoloState = AS_YOLO_RETURN;
-//            break;
-
-            //---------------
-            counter++;
-            qDebug() << "YOLO Counting:" << counter;
-
-            if(counter < MAX_COUNT)
-            {
-                break;
-            }
-
-            qDebug() << "YOLO counting complete!";
-            counter = 0;
-            processValue--;
-            emit currentValueChanged(processValue);
-            qDebug() << "YOLO processing value decreased to:" << processValue;
             yoloState = AS_YOLO_MAKING;
             break;
+
+            //---------------
+//            counter++;
+//            qDebug() << "YOLO Counting:" << counter;
+
+//            if(counter < MAX_COUNT)
+//            {
+//                break;
+//            }
+
+//            qDebug() << "YOLO counting complete!";
+//            counter = 0;
+//            processValue--;
+//            emit currentValueChanged(processValue);
+//            qDebug() << "YOLO processing value decreased to:" << processValue;
+//            yoloState = AS_YOLO_MAKING;
+//            break;
             //-------------------
         }
 

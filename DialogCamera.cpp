@@ -14,23 +14,23 @@ DialogCamera::DialogCamera(QWidget *parent, Scheduler* _scheduler) :
     fullFrameDepth(0),
     useCustomPoint(false),
     currentDepth(0)
-
 {
     ui->setupUi(this);
 
     setupButtonStyles();
     // Initialize YOLO model
-    std::string modelConfig = std::string(BUILD_PATHSET) + "/yolov3.cfg";
-    std::string modelWeights = std::string(BUILD_PATHSET) + "/yolov3.weights";
+//    std::string modelConfig = std::string(BUILD_PATHSET) + "/yolov3.cfg";
+//    std::string modelWeights = std::string(BUILD_PATHSET) + "/yolov3.weights";
 
-//    std::string modelConfig = std::string(BUILD_PATHSET) + "/yolov3-kimbap.cfg";
-//    std::string modelWeights = std::string(BUILD_PATHSET) + "/yolov3-kimbap_3000.weights";
+    std::string modelConfig = std::string(BUILD_PATHSET) + "/yolov3-kimbap.cfg";
+    std::string modelWeights = std::string(BUILD_PATHSET) + "/yolov3-kimbap_3000.weights";
 
     detector.loadYOLOModel(modelConfig, modelWeights);
 
     align_to_color = new rs2::align(RS2_STREAM_COLOR);
     // Initialize camera center points
-    frameCenter = cv::Point(500, 370);  // Default center (640/2, 480/2)
+//    frameCenter = cv::Point(500, 370);  // Default center (640/2, 480/2)
+    frameCenter = cv::Point(CAMERA_WIDTH/2, CAMERA_HEIGHT/2+7);
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
@@ -38,6 +38,7 @@ DialogCamera::DialogCamera(QWidget *parent, Scheduler* _scheduler) :
 
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+
 
     // Initialize label value to 0
     ui->label->setText("0");
@@ -272,12 +273,14 @@ void DialogCamera::resumeCamera()
     if (!isRunning) return;
 
     try {
+        rs2::config cfg;
+        configureCamera(cfg);
         isPaused = false;
         detectionsUpdated = false;
         currentDetections.clear();
-        lastCapturedFrame = QImage();  // Clear the stored frame
-        pipe.start();
-        qDebug() << "Camera resumed";
+        lastCapturedFrame = QImage();
+        pipe.start(cfg);  // Use the same configuration as initialization
+        qDebug() << "Camera resumed with resolution:" << CAMERA_WIDTH << "x" << CAMERA_HEIGHT;
     } catch (const rs2::error& e) {
         QMessageBox::critical(this, "Error", "Failed to resume camera: " + QString(e.what()));
     }
@@ -338,13 +341,12 @@ void DialogCamera::initializeCamera()
 {
     try {
         rs2::config cfg;
-        cfg.enable_stream(RS2_STREAM_COLOR, 640, 480, RS2_FORMAT_RGB8, 30);
-        cfg.enable_stream(RS2_STREAM_DEPTH, 640, 480, RS2_FORMAT_Z16, 30);
+        configureCamera(cfg);
         pipe.start(cfg);
         isRunning = true;
         isPaused = false;
         ui->START->setText("Stop Camera");
-        qDebug() << "Camera initialized";
+        qDebug() << "Camera initialized with resolution:" << CAMERA_WIDTH << "x" << CAMERA_HEIGHT;
     } catch (const rs2::error& e) {
         QMessageBox::critical(this, "Error", "Failed to start camera: " + QString(e.what()));
     }
@@ -382,7 +384,7 @@ void DialogCamera::processingDepthData(const rs2::depth_frame &depth_frame)
 {
     if(!useCustomPoint)
     {
-        frameCenter = cv::Point(depth_frame.get_width()/2, depth_frame.get_height()/2);
+        frameCenter = cv::Point(depth_frame.get_width()/2, (depth_frame.get_height()/2)+7);
     }
     fullFrameDepth = getFullFrameDepth(depth_frame, frameCenter.x, frameCenter.y);
 }
@@ -401,27 +403,27 @@ void DialogCamera::acquireLiveFrame()
 {
     try {
         rs2::frameset frames = pipe.wait_for_frames();
-        frames = align_to_color->process(frames);  // Align depth to color frame
+        frames = align_to_color->process(frames);
 
         auto color_frame = frames.get_color_frame();
         auto depth_frame = frames.get_depth_frame();
 
-        if (color_frame && depth_frame)  // Changed from || to &&
-        {
-            // Convert color frame to Mat for processing
+        if (color_frame && depth_frame) {
             cv::Mat colorMat = convertFrameToMat(color_frame);
 
-            // Process depth data
-            processingDepthData(depth_frame);
+            // Ensure consistent size
+            if (colorMat.size() != cv::Size(CAMERA_WIDTH, CAMERA_HEIGHT)) {
+                cv::resize(colorMat, colorMat, cv::Size(CAMERA_WIDTH, CAMERA_HEIGHT));
+            }
 
-            // Add depth overlay
+            processingDepthData(depth_frame);
             addDepthOverlay(colorMat);
 
-            // Convert to QImage and display
             QImage processedFrame = matToQImage(colorMat);
-
             displayFrame(processedFrame, false);
             lastCapturedFrame = processedFrame;
+
+            qDebug() << "Frame acquired - Size:" << processedFrame.width() << "x" << processedFrame.height();
         }
     } catch (const rs2::error& e) {
         qDebug() << "Frame acquisition error:" << e.what();
@@ -430,20 +432,20 @@ void DialogCamera::acquireLiveFrame()
 
 void DialogCamera::displayFrame(const QImage& frame, bool isPaused)
 {
-    scene->clear();
+    // Verify frame dimensions
+    if (frame.width() != CAMERA_WIDTH || frame.height() != CAMERA_HEIGHT) {
+        qDebug() << "Warning: Unexpected frame dimensions:" << frame.width() << "x" << frame.height();
+        return;
+    }
 
-    // Add the frame
+    scene->clear();
     QPixmap pixmap = QPixmap::fromImage(frame);
     scene->addPixmap(pixmap);
 
-    if (isPaused)
-    {
-        // Add a red rectangle when paused
+    if (isPaused) {
         QPen pen(Qt::red);
         pen.setWidth(3);
-        scene->addRect(QRectF(10, 10, frame.width() - 20, frame.height() - 20), pen);
-        qDebug() << "Drawing rectangle on paused frame";
-
+        scene->addRect(QRectF(10, 10, CAMERA_WIDTH - 20, CAMERA_HEIGHT - 20), pen);
     }
 
     ui->graphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
@@ -495,7 +497,7 @@ void DialogCamera::processYoloDetection(const QImage& frame)
     std::vector<int> detections = detector.detectObjectsInGridCells(cvFrame, roiRect, 2, 10);
 
     // Draw grid and detections
-    detector.drawGridAndLabels(cvFrame, roiRect, 2, 5, detections);
+    detector.drawGridAndLabels(cvFrame, roiRect, 2, 10, detections);
 
     // Convert back to QImage and display
     QImage processedFrame(
@@ -728,36 +730,6 @@ void DialogCamera::onCameraToggle()
     }
 }
 
-//void DialogCamera::onValueCapture()
-//{
-//    if (!isRunning) {
-//        QMessageBox::warning(this, "Warning", "Please start the camera first.");
-//        return;
-//    }
-
-//    int value = ui->label->text().toInt();
-//    if (value > 0)
-//    {
-//        valueQueue.enqueue(value);
-//        ui->label->setText("0");  // Reset input to 0
-//        updateValueDisplay();
-//        updateOrderListDisplay();
-
-//        if (!isProcessing && isRunning)
-//        {
-//            isProcessing = true;
-//            int nextValue = valueQueue.dequeue();
-//            pauseCamera();
-//            Scheduler::getInstance().startProcessing(nextValue);
-//            qDebug() << "Processing started with value:" << nextValue;
-//        }
-//    }
-//    else
-//    {
-//        QMessageBox::warning(this, "Invalid Value", "Please ensure the value is positive.");
-//    }
-//}
-
 void DialogCamera::updateSchedulerState()
 {
     if(isProcessing)
@@ -887,13 +859,12 @@ float DialogCamera::GetDepth()
 // Method to set custom measurement point
 void DialogCamera::setCustomMeasurementPoint(int x, int y)
 {
-    const int width = 640;  // Your frame width
-    const int height = 480; // Your frame height
+//    const int width = 640;  // Your frame width
+//    const int height = 480; // Your frame height
 
     // Ensure coordinates are within frame bounds
-    x = clampValue(x, 0, width - 1);
-    y = clampValue(y, 0, height - 1);
-
+    x = clampValue(x, 0, CAMERA_WIDTH - 1);
+    y = clampValue(y, 0, CAMERA_HEIGHT - 1);
     customPoint = cv::Point(x, y);
     useCustomPoint = true;
 //    qDebug() << "Set custom measurement point to:" << x << "," << y;
@@ -903,6 +874,7 @@ void DialogCamera::setCustomMeasurementPoint(int x, int y)
 void DialogCamera::resetToDefaultCenter()
 {
     useCustomPoint = false;
+    frameCenter = cv::Point(CAMERA_WIDTH/2, (CAMERA_HEIGHT/2) + 7);
 //    qDebug() << "Reset to default center point measurement";
 }
 
@@ -1011,37 +983,67 @@ float DialogCamera::getFullFrameDepth(const rs2::depth_frame& depth_frame, int x
     return centerDepth;
 }
 
+//ROIParams DialogCamera::getCurrentROI()
+//{
+//    ROIParams params;
+
+//    switch(GetLayer())
+//    {
+//        case 1:  // Layer 1 (≤80mm)
+////            params = {40, 30, 210, 100};
+//            params = {15, 93, 584, 354};
+//            break;
+//        case 2:  // Layer 2 (≤90mm)
+////            params = {100, 100, 500, 200};
+//            params = {62, 108, 498, 314};
+//            break;
+//        case 3:  // Layer 3 (≤100mm)
+////            params = {100, 40, 510, 400};
+//            params = {100, 126, 425, 269};
+//            break;
+//        case 4:  // Layer 4 (≤110mm)
+////            params = {110, 45, 510, 400};
+//            params = {125, 132, 377, 252};
+//            break;
+//        case 5:  // Layer 5 (≤120mm)
+////            params = {120, 50, 510, 400};
+//            params = {148, 143, 333, 224};
+//            break;
+//        case 6:
+//            params = {0, 0, 640, 480};
+//            break;
+//        default:
+//            return params;
+//    }
+//    return params;
+//}
+
+// Update ROI parameters to use constants:
 ROIParams DialogCamera::getCurrentROI()
 {
     ROIParams params;
-
-    switch(GetLayer())
-    {
-        case 1:  // Layer 1 (≤80mm)
-//            params = {40, 30, 210, 100};
-            params = {15, 93, 584, 354};
+    switch(GetLayer()) {
+        case 1:
+            params = {15, 93, CAMERA_WIDTH - 56, CAMERA_HEIGHT - 126};  // Adjusted for 640x480
             break;
-        case 2:  // Layer 2 (≤90mm)
-//            params = {100, 100, 500, 200};
-            params = {62, 108, 498, 314};
+        case 2:
+            params = {62, 108, CAMERA_WIDTH - 142, CAMERA_HEIGHT - 166};
             break;
-        case 3:  // Layer 3 (≤100mm)
-//            params = {100, 40, 510, 400};
-            params = {100, 126, 425, 269};
+        case 3:
+            params = {100, 126, CAMERA_WIDTH - 215, CAMERA_HEIGHT - 211};
             break;
-        case 4:  // Layer 4 (≤110mm)
-//            params = {110, 45, 510, 400};
-            params = {125, 132, 377, 252};
+        case 4:
+            params = {125, 132, CAMERA_WIDTH - 263, CAMERA_HEIGHT - 228};
             break;
-        case 5:  // Layer 5 (≤120mm)
-//            params = {120, 50, 510, 400};
-            params = {148, 143, 333, 224};
+        case 5:
+            params = {148, 143, CAMERA_WIDTH - 307, CAMERA_HEIGHT - 256};
             break;
         case 6:
-            params = {0, 0, 640, 480};
+            params = {0, 0, CAMERA_WIDTH, CAMERA_HEIGHT};
             break;
         default:
-            return params;
+            params = {0, 0, CAMERA_WIDTH, CAMERA_HEIGHT};
+            break;
     }
     return params;
 }
@@ -1267,4 +1269,14 @@ void DialogCamera::setupButtonStyles()
         "    padding: 4px;"
         "}"
     );
+}
+
+void DialogCamera::configureCamera(rs2::config& cfg)
+{
+    // Explicitly disable all streams first
+    cfg.disable_all_streams();
+
+    // Configure both color and depth streams with exact resolution
+    cfg.enable_stream(RS2_STREAM_COLOR, CAMERA_WIDTH, CAMERA_HEIGHT, RS2_FORMAT_RGB8, 30);
+    cfg.enable_stream(RS2_STREAM_DEPTH, CAMERA_WIDTH, CAMERA_HEIGHT, RS2_FORMAT_Z16, 30);
 }
