@@ -9,26 +9,42 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    DialogCalibration.cpp \
     DialogCamera.cpp \
     DialogDetector.cpp \
+    DialogExtrinsic.cpp \
+    DialogIntrinsic.cpp \
     DialogRobot.cpp \
+    DialogStart.cpp \
+    ExtrinsicCalib.cpp \
     Logger.cpp \
+    PathPlanning.cpp \
     Scheduler.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    DialogCalibration.h \
     DialogCamera.h \
     DialogDetector.h \
+    DialogExtrinsic.h \
+    DialogIntrinsic.h \
     DialogRobot.h \
+    DialogStart.h \
+    ExtrinsicCalib.h \
     GlobalHeader.h \
     Logger.h \
+    PathPlanning.h \
     Scheduler.h \
     mainwindow.h
 
 FORMS += \
+    DialogCalibration.ui \
     DialogCamera.ui \
+    DialogExtrinsic.ui \
+    DialogIntrinsic.ui \
     DialogRobot.ui \
+    DialogStart.ui \
     mainwindow.ui
 
 # OpenCV

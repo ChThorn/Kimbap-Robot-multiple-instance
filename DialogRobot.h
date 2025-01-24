@@ -141,6 +141,7 @@ class RBTCPServer : public QTcpServer
 public:
     // Constructor
     RBTCPServer(QObject *parent = 0);
+    void RBServerClose();
 
     // Distructor
     ~RBTCPServer();

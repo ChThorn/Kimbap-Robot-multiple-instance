@@ -6,8 +6,8 @@
 #include<QPushButton>
 #include "Logger.h"
 
-#define BUILD_PATH "/home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/"
-//#define BUILD_PATHSET "/home/thornch/Desktop/Kimbap/build/SETTING/"
+#define BUILD_PATH "/home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/"
+#define LOAD_CALIB "/home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/LOAD_CALIB_DATA"
 
 inline void SetLEColor(QLineEdit *le, QString color)
 {

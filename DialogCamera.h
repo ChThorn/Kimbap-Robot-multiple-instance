@@ -14,7 +14,7 @@
 #include "DialogDetector.h"
 #include "Scheduler.h"
 
-#define BUILD_PATHSET "/home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/SETTING"
+#define BUILD_PATHSET "/home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/SETTING"
 
 struct ROIParams
 {

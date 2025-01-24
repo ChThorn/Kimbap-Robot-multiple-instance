@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "DialogStart.h"
 
 #include <QApplication>
 #include <QPushButton>
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    , scheduler(Scheduler::getInstance())
 {
     ui->setupUi(this);
+//    dialogStart = nullptr;
 
     /*=====Logger=====*/
 
@@ -60,12 +62,34 @@ MainWindow::MainWindow(QWidget *parent)
     showFullScreen();
 }
 
+//MainWindow::~MainWindow()
+//{
+//    if(timer)
+//    {
+//        timer->stop();
+//    }
+//    delete ui;
+//}
+
 MainWindow::~MainWindow()
 {
     if(timer)
     {
         timer->stop();
+        delete timer;
     }
+
+    // Clean up robot first (this will handle server cleanup)
+    if(robot) {
+        delete robot;
+        robot = nullptr;
+    }
+
+    if(scheduler) {
+        delete scheduler;
+        scheduler = nullptr;
+    }
+
     delete ui;
 }
 
@@ -168,4 +192,30 @@ void MainWindow::changeTextColor()
 
     // Increment color index loop back to start if needed
     colorIndex = (colorIndex + 1)%colorList.size();
+}
+
+void MainWindow::on_CALIBRATION_clicked()
+{
+    // Stop timer
+    if(timer) {
+        timer->stop();
+    }
+
+    // Clean up the robot dialog
+    if(robot) {
+        delete robot;
+        robot = nullptr;
+    }
+
+    // Clean up the scheduler
+    if(scheduler) {
+        delete scheduler;
+        scheduler = nullptr;
+    }
+
+    // Create and show the start dialog, then terminate this window
+//    DialogStart *dialogStart = new DialogStart();
+    auto dialogStart = new DialogStart();
+    dialogStart->show();
+    this->close();
 }

@@ -145,8 +145,8 @@ void Scheduler::onTimer()
             qDebug()<<keymotion;
             processValue--;
             emit currentValueChanged(processValue);
-//            robot->RobotMoving = true;
-//            robot->MotionServerCommand(keymotion);
+            robot->RobotMoving = true;
+            robot->MotionServerCommand(keymotion);
 
             yoloState = AS_YOLO_MAKING;
             break;
@@ -177,8 +177,8 @@ void Scheduler::onTimer()
 
             keymotion = QString("MAKING_KIMBAP");
             qDebug() << keymotion;
-//            robot->RobotMoving = true;
-//            robot->MotionServerCommand(keymotion);
+            robot->RobotMoving = true;
+            robot->MotionServerCommand(keymotion);
             yoloState = AS_YOLO_RETURN;
             break;
         }

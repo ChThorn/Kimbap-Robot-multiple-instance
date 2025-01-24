@@ -64,9 +64,45 @@ DialogRobot::DialogRobot(QWidget *parent) :
 }
 
 // Destructor
+//DialogRobot::~DialogRobot()
+//{
+//    delete ui;
+//}
+
 DialogRobot::~DialogRobot()
 {
+    // Close socket connections
+    if(cmdSocket.state() == QAbstractSocket::ConnectedState) {
+        cmdSocket.disconnectFromHost();
+    }
+    if(dataSocket.state() == QAbstractSocket::ConnectedState) {
+        dataSocket.disconnectFromHost();
+    }
+
+    // Clean up motionServer
+    if(motionServer) {
+        motionServer->RBServerClose();  // We'll add this function
+        delete motionServer;
+    }
+
     delete ui;
+}
+
+void RBTCPServer::RBServerClose()
+{
+    if(RBTcpClient) {
+        RBTcpClient->close();
+        delete RBTcpClient;
+        RBTcpClient = nullptr;
+    }
+
+    if(RBTcpServer) {
+        RBTcpServer->close();
+        delete RBTcpServer;
+        RBTcpServer = nullptr;
+    }
+
+    RBConnectionStatus = false;
 }
 
 void DialogRobot::onTimer()

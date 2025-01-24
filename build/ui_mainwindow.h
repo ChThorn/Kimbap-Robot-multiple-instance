@@ -39,6 +39,8 @@ public:
     QLabel *LB_STS;
     QLabel *MESSAGE_LB;
     QLabel *LB_BUTTON_STATE;
+    QFrame *CALIB_SHADOW;
+    QPushButton *CALIBRATION;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -141,6 +143,23 @@ public:
         LB_BUTTON_STATE = new QLabel(centralwidget);
         LB_BUTTON_STATE->setObjectName(QString::fromUtf8("LB_BUTTON_STATE"));
         LB_BUTTON_STATE->setGeometry(QRect(20, 850, 331, 31));
+        CALIB_SHADOW = new QFrame(centralwidget);
+        CALIB_SHADOW->setObjectName(QString::fromUtf8("CALIB_SHADOW"));
+        CALIB_SHADOW->setGeometry(QRect(443, 1014, 85, 38));
+        CALIB_SHADOW->setStyleSheet(QString::fromUtf8("QFrame { \n"
+"   border: 0px solid #595959 ;\n"
+"   background-color: #B4B4B4;\n"
+"   border-radius:10px;\n"
+"} "));
+        CALIB_SHADOW->setFrameShape(QFrame::StyledPanel);
+        CALIB_SHADOW->setFrameShadow(QFrame::Raised);
+        CALIBRATION = new QPushButton(centralwidget);
+        CALIBRATION->setObjectName(QString::fromUtf8("CALIBRATION"));
+        CALIBRATION->setGeometry(QRect(440, 1010, 85, 38));
+        CALIBRATION->setStyleSheet(QString::fromUtf8("QPushButton{font:12pt;\n"
+"								background-color: #FF9999;\n"
+"                            border-radius: 10px;\n"
+"                            border: 0px solid #595959;}"));
         MainWindow->setCentralWidget(centralwidget);
         BTN_RESTART_SHADOW->raise();
         BTN_MINIMIZE_SHADOW->raise();
@@ -156,6 +175,8 @@ public:
         LB_STS->raise();
         MESSAGE_LB->raise();
         LB_BUTTON_STATE->raise();
+        CALIB_SHADOW->raise();
+        CALIBRATION->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 1920, 22));
@@ -179,6 +200,7 @@ public:
         LB_STS->setText(QCoreApplication::translate("MainWindow", "*Import Notice:", nullptr));
         MESSAGE_LB->setText(QCoreApplication::translate("MainWindow", "Please don't turn of the camera during the robot is operating!", nullptr));
         LB_BUTTON_STATE->setText(QString());
+        CALIBRATION->setText(QCoreApplication::translate("MainWindow", "Calibration", nullptr));
     } // retranslateUi
 
 };

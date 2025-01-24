@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../../Kimbap_Robot_user_noin_1 -I. -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I../../Kimbap_Robot_auto_1_IR -I. -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Kimbap_Robot1.0.0
-DISTDIR = /home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/.tmp/Kimbap_Robot1.0.0
+DISTDIR = /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/.tmp/Kimbap_Robot1.0.0
 LINK          = g++
 LFLAGS        = 
 LIBS          = $(SUBLIBS) -L/usr/local/lib -lrealsense2 -lopencv_stitching -lopencv_alphamat -lopencv_aruco -lopencv_barcode -lopencv_bgsegm -lopencv_bioinspired -lopencv_ccalib -lopencv_dnn_objdetect -lopencv_dnn_superres -lopencv_dpm -lopencv_face -lopencv_freetype -lopencv_fuzzy -lopencv_hdf -lopencv_hfs -lopencv_img_hash -lopencv_intensity_transform -lopencv_line_descriptor -lopencv_mcc -lopencv_quality -lopencv_rapid -lopencv_reg -lopencv_rgbd -lopencv_saliency -lopencv_shape -lopencv_stereo -lopencv_structured_light -lopencv_phase_unwrapping -lopencv_superres -lopencv_optflow -lopencv_surface_matching -lopencv_tracking -lopencv_highgui -lopencv_datasets -lopencv_text -lopencv_plot -lopencv_ml -lopencv_videostab -lopencv_videoio -lopencv_viz -lopencv_wechat_qrcode -lopencv_ximgproc -lopencv_video -lopencv_xobjdetect -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_dnn -lopencv_flann -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Network.so /usr/lib/x86_64-linux-gnu/libQt5Sql.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
@@ -52,26 +52,44 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../DialogCamera.cpp \
+SOURCES       = ../DialogCalibration.cpp \
+		../DialogCamera.cpp \
 		../DialogDetector.cpp \
+		../DialogExtrinsic.cpp \
+		../DialogIntrinsic.cpp \
 		../DialogRobot.cpp \
+		../DialogStart.cpp \
 		../Logger.cpp \
+		../PathPlanning.cpp \
 		../Scheduler.cpp \
 		../main.cpp \
-		../mainwindow.cpp moc_DialogCamera.cpp \
+		../mainwindow.cpp moc_DialogCalibration.cpp \
+		moc_DialogCamera.cpp \
+		moc_DialogExtrinsic.cpp \
+		moc_DialogIntrinsic.cpp \
 		moc_DialogRobot.cpp \
+		moc_DialogStart.cpp \
 		moc_Logger.cpp \
 		moc_Scheduler.cpp \
 		moc_mainwindow.cpp
-OBJECTS       = DialogCamera.o \
+OBJECTS       = DialogCalibration.o \
+		DialogCamera.o \
 		DialogDetector.o \
+		DialogExtrinsic.o \
+		DialogIntrinsic.o \
 		DialogRobot.o \
+		DialogStart.o \
 		Logger.o \
+		PathPlanning.o \
 		Scheduler.o \
 		main.o \
 		mainwindow.o \
+		moc_DialogCalibration.o \
 		moc_DialogCamera.o \
+		moc_DialogExtrinsic.o \
+		moc_DialogIntrinsic.o \
 		moc_DialogRobot.o \
+		moc_DialogStart.o \
 		moc_Logger.o \
 		moc_Scheduler.o \
 		moc_mainwindow.o
@@ -125,6 +143,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickcontrols2.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quicktemplates2.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri \
@@ -171,16 +191,26 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		../../Kimbap_Robot.pro ../DialogCamera.h \
+		../../Kimbap_Robot.pro ../DialogCalibration.h \
+		../DialogCamera.h \
 		../DialogDetector.h \
+		../DialogExtrinsic.h \
+		../DialogIntrinsic.h \
 		../DialogRobot.h \
+		../DialogStart.h \
 		../GlobalHeader.h \
 		../Logger.h \
+		../PathPlanning.h \
 		../Scheduler.h \
-		../mainwindow.h ../DialogCamera.cpp \
+		../mainwindow.h ../DialogCalibration.cpp \
+		../DialogCamera.cpp \
 		../DialogDetector.cpp \
+		../DialogExtrinsic.cpp \
+		../DialogIntrinsic.cpp \
 		../DialogRobot.cpp \
+		../DialogStart.cpp \
 		../Logger.cpp \
+		../PathPlanning.cpp \
 		../Scheduler.cpp \
 		../main.cpp \
 		../mainwindow.cpp
@@ -192,7 +222,7 @@ TARGET        = Kimbap_Robot
 first: all
 ####### Build rules
 
-Kimbap_Robot: ui_DialogCamera.h ui_DialogRobot.h ui_mainwindow.h $(OBJECTS)  
+Kimbap_Robot: ui_DialogCalibration.h ui_DialogCamera.h ui_DialogExtrinsic.h ui_DialogIntrinsic.h ui_DialogRobot.h ui_DialogStart.h ui_mainwindow.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../Kimbap_Robot.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -245,6 +275,8 @@ Makefile: ../Kimbap_Robot.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qm
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickcontrols2.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quicktemplates2.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri \
@@ -343,6 +375,8 @@ Makefile: ../Kimbap_Robot.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qm
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickcontrols2.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quicktemplates2.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri:
@@ -405,9 +439,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../DialogCamera.h ../DialogDetector.h ../DialogRobot.h ../GlobalHeader.h ../Logger.h ../Scheduler.h ../mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../DialogCamera.cpp ../DialogDetector.cpp ../DialogRobot.cpp ../Logger.cpp ../Scheduler.cpp ../main.cpp ../mainwindow.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../DialogCamera.ui ../DialogRobot.ui ../mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../DialogCalibration.h ../DialogCamera.h ../DialogDetector.h ../DialogExtrinsic.h ../DialogIntrinsic.h ../DialogRobot.h ../DialogStart.h ../GlobalHeader.h ../Logger.h ../PathPlanning.h ../Scheduler.h ../mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../DialogCalibration.cpp ../DialogCamera.cpp ../DialogDetector.cpp ../DialogExtrinsic.cpp ../DialogIntrinsic.cpp ../DialogRobot.cpp ../DialogStart.cpp ../Logger.cpp ../PathPlanning.cpp ../Scheduler.cpp ../main.cpp ../mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../DialogCalibration.ui ../DialogCamera.ui ../DialogExtrinsic.ui ../DialogIntrinsic.ui ../DialogRobot.ui ../DialogStart.ui ../mainwindow.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -439,9 +473,14 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_DialogCamera.cpp moc_DialogRobot.cpp moc_Logger.cpp moc_Scheduler.cpp moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_DialogCalibration.cpp moc_DialogCamera.cpp moc_DialogExtrinsic.cpp moc_DialogIntrinsic.cpp moc_DialogRobot.cpp moc_DialogStart.cpp moc_Logger.cpp moc_Scheduler.cpp moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_DialogCamera.cpp moc_DialogRobot.cpp moc_Logger.cpp moc_Scheduler.cpp moc_mainwindow.cpp
+	-$(DEL_FILE) moc_DialogCalibration.cpp moc_DialogCamera.cpp moc_DialogExtrinsic.cpp moc_DialogIntrinsic.cpp moc_DialogRobot.cpp moc_DialogStart.cpp moc_Logger.cpp moc_Scheduler.cpp moc_mainwindow.cpp
+moc_DialogCalibration.cpp: ../DialogCalibration.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogCalibration.h -o moc_DialogCalibration.cpp
+
 moc_DialogCamera.cpp: ../DialogCamera.h \
 		../DialogDetector.h \
 		../Scheduler.h \
@@ -450,19 +489,37 @@ moc_DialogCamera.cpp: ../DialogCamera.h \
 		../Logger.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_user_noin_1 -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogCamera.h -o moc_DialogCamera.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogCamera.h -o moc_DialogCamera.cpp
+
+moc_DialogExtrinsic.cpp: ../DialogExtrinsic.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogExtrinsic.h -o moc_DialogExtrinsic.cpp
+
+moc_DialogIntrinsic.cpp: ../DialogIntrinsic.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogIntrinsic.h -o moc_DialogIntrinsic.cpp
 
 moc_DialogRobot.cpp: ../DialogRobot.h \
 		../GlobalHeader.h \
 		../Logger.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_user_noin_1 -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogRobot.h -o moc_DialogRobot.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogRobot.h -o moc_DialogRobot.cpp
+
+moc_DialogStart.cpp: ../DialogStart.h \
+		../DialogCalibration.h \
+		../GlobalHeader.h \
+		../Logger.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../DialogStart.h -o moc_DialogStart.cpp
 
 moc_Logger.cpp: ../Logger.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_user_noin_1 -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Logger.h -o moc_Logger.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Logger.h -o moc_Logger.cpp
 
 moc_Scheduler.cpp: ../Scheduler.h \
 		../DialogRobot.h \
@@ -470,7 +527,7 @@ moc_Scheduler.cpp: ../Scheduler.h \
 		../Logger.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_user_noin_1 -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Scheduler.h -o moc_Scheduler.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Scheduler.h -o moc_Scheduler.cpp
 
 moc_mainwindow.cpp: ../mainwindow.h \
 		../DialogCamera.h \
@@ -481,22 +538,38 @@ moc_mainwindow.cpp: ../mainwindow.h \
 		../Logger.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_user_noin_1/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_user_noin_1 -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/thornch/Desktop/Kimbap_Robot_auto_1_IR/build/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/thornch/Desktop/Kimbap_Robot_auto_1_IR -I/usr/local/include/opencv4 -I/usr/include/opencv4 -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_DialogCamera.h ui_DialogRobot.h ui_mainwindow.h
+compiler_uic_make_all: ui_DialogCalibration.h ui_DialogCamera.h ui_DialogExtrinsic.h ui_DialogIntrinsic.h ui_DialogRobot.h ui_DialogStart.h ui_mainwindow.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_DialogCamera.h ui_DialogRobot.h ui_mainwindow.h
+	-$(DEL_FILE) ui_DialogCalibration.h ui_DialogCamera.h ui_DialogExtrinsic.h ui_DialogIntrinsic.h ui_DialogRobot.h ui_DialogStart.h ui_mainwindow.h
+ui_DialogCalibration.h: ../DialogCalibration.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic ../DialogCalibration.ui -o ui_DialogCalibration.h
+
 ui_DialogCamera.h: ../DialogCamera.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic ../DialogCamera.ui -o ui_DialogCamera.h
 
+ui_DialogExtrinsic.h: ../DialogExtrinsic.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic ../DialogExtrinsic.ui -o ui_DialogExtrinsic.h
+
+ui_DialogIntrinsic.h: ../DialogIntrinsic.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic ../DialogIntrinsic.ui -o ui_DialogIntrinsic.h
+
 ui_DialogRobot.h: ../DialogRobot.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic ../DialogRobot.ui -o ui_DialogRobot.h
+
+ui_DialogStart.h: ../DialogStart.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic ../DialogStart.ui -o ui_DialogStart.h
 
 ui_mainwindow.h: ../mainwindow.ui \
 		/usr/lib/qt5/bin/uic
@@ -512,6 +585,14 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
+DialogCalibration.o: ../DialogCalibration.cpp ../DialogCalibration.h \
+		ui_DialogCalibration.h \
+		../DialogIntrinsic.h \
+		../DialogStart.h \
+		../GlobalHeader.h \
+		../Logger.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DialogCalibration.o ../DialogCalibration.cpp
+
 DialogCamera.o: ../DialogCamera.cpp ../DialogCamera.h \
 		../DialogDetector.h \
 		../Scheduler.h \
@@ -524,15 +605,39 @@ DialogCamera.o: ../DialogCamera.cpp ../DialogCamera.h \
 DialogDetector.o: ../DialogDetector.cpp ../DialogDetector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DialogDetector.o ../DialogDetector.cpp
 
+DialogExtrinsic.o: ../DialogExtrinsic.cpp ../DialogExtrinsic.h \
+		ui_DialogExtrinsic.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DialogExtrinsic.o ../DialogExtrinsic.cpp
+
+DialogIntrinsic.o: ../DialogIntrinsic.cpp ../DialogIntrinsic.h \
+		ui_DialogIntrinsic.h \
+		../DialogCalibration.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DialogIntrinsic.o ../DialogIntrinsic.cpp
+
 DialogRobot.o: ../DialogRobot.cpp ../DialogRobot.h \
 		../GlobalHeader.h \
 		../Logger.h \
 		ui_DialogRobot.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DialogRobot.o ../DialogRobot.cpp
 
+DialogStart.o: ../DialogStart.cpp ../DialogStart.h \
+		../DialogCalibration.h \
+		../GlobalHeader.h \
+		../Logger.h \
+		ui_DialogStart.h \
+		../mainwindow.h \
+		../DialogCamera.h \
+		../DialogDetector.h \
+		../Scheduler.h \
+		../DialogRobot.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DialogStart.o ../DialogStart.cpp
+
 Logger.o: ../Logger.cpp ../Logger.h \
 		../GlobalHeader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Logger.o ../Logger.cpp
+
+PathPlanning.o: ../PathPlanning.cpp ../PathPlanning.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PathPlanning.o ../PathPlanning.cpp
 
 Scheduler.o: ../Scheduler.cpp ../Scheduler.h \
 		../DialogRobot.h \
@@ -540,11 +645,8 @@ Scheduler.o: ../Scheduler.cpp ../Scheduler.h \
 		../Logger.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scheduler.o ../Scheduler.cpp
 
-main.o: ../main.cpp ../mainwindow.h \
-		../DialogCamera.h \
-		../DialogDetector.h \
-		../Scheduler.h \
-		../DialogRobot.h \
+main.o: ../main.cpp ../DialogStart.h \
+		../DialogCalibration.h \
 		../GlobalHeader.h \
 		../Logger.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
@@ -556,14 +658,28 @@ mainwindow.o: ../mainwindow.cpp ../mainwindow.h \
 		../DialogRobot.h \
 		../GlobalHeader.h \
 		../Logger.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../DialogStart.h \
+		../DialogCalibration.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../mainwindow.cpp
+
+moc_DialogCalibration.o: moc_DialogCalibration.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_DialogCalibration.o moc_DialogCalibration.cpp
 
 moc_DialogCamera.o: moc_DialogCamera.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_DialogCamera.o moc_DialogCamera.cpp
 
+moc_DialogExtrinsic.o: moc_DialogExtrinsic.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_DialogExtrinsic.o moc_DialogExtrinsic.cpp
+
+moc_DialogIntrinsic.o: moc_DialogIntrinsic.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_DialogIntrinsic.o moc_DialogIntrinsic.cpp
+
 moc_DialogRobot.o: moc_DialogRobot.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_DialogRobot.o moc_DialogRobot.cpp
+
+moc_DialogStart.o: moc_DialogStart.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_DialogStart.o moc_DialogStart.cpp
 
 moc_Logger.o: moc_Logger.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Logger.o moc_Logger.cpp
