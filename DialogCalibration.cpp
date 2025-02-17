@@ -168,8 +168,8 @@ void DialogCalibration::on_EXTRINSIC_clicked()
     QMessageBox::information(this, "Extrinsic Calibration", "Starting extrinsic calibration process...");
     // TODO: Add extrinsic calibration logic
 //    accept();
-    auto dialogExtrinsic = new DialogExtrinsic();
-    dialogExtrinsic->show();
+//    auto dialogExtrinsic = new DialogExtrinsic();
+//    dialogExtrinsic->show();
     this->close();
 }
 

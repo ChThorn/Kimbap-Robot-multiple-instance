@@ -49,13 +49,14 @@ FORMS += \
 
 # OpenCV
 OPENCV_PATH = /usr/local
-
+INCLUDEPATH += /usr/include/eigen3
 INCLUDEPATH += $${OPENCV_PATH}/include/opencv4
 LIBS += -L$${OPENCV_PATH}/lib \
         -lopencv_core \
         -lopencv_imgproc \
         -lopencv_highgui \
-        -lopencv_dnn
+        -lopencv_dnn \
+        -lopencv_calib3d
 
 # If pkg-config is available and opencv4.pc is found
 system(pkg-config --exists opencv4) {
